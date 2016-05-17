@@ -1,4 +1,4 @@
-snu bot: shasha
+snu bot: [shasha](https://telegram.me/snuBot)
 ---------
 telegram bot in python
 
