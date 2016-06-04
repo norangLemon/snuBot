@@ -1,3 +1,4 @@
+import signal
 import setting, words
 import sys
 import asyncio
@@ -146,6 +147,13 @@ loop.create_task(bot.message_loop({'chat': on_chat_message,
                                    'callback_query': on_callback_query,
                                    'inline_query': on_inline_query,
                                    'chosen_inline_result': on_chosen_inline_result}))
-print('Listening ...')
 
+# Handle ^C gracefully
+def signal_handler(signal, frame):
+    print('Bye!')
+    exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
+
+print('SNUBot is on its way!')
 loop.run_forever()
