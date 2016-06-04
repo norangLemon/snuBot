@@ -1,6 +1,5 @@
-import signal
 import setting, words
-import sys
+import sys, signal
 import asyncio
 import random
 import telepot
@@ -137,7 +136,7 @@ def on_chosen_inline_result(msg):
     print('Chosen Inline Result:', result_id, from_id, query_string)
 
 
-TOKEN = setting.token  # get token from command-line
+TOKEN = setting.token 
 
 bot = telepot.async.Bot(TOKEN)
 answerer = telepot.async.helper.Answerer(bot)
@@ -155,5 +154,5 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 
-print('SNUBot is on its way!')
+print('ShaShaBot is on its way!')
 loop.run_forever()
