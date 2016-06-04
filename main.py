@@ -1,6 +1,8 @@
-import signal
 import setting, words
-import sys
+from snuMenu import *
+
+import sys, signal
+
 import asyncio
 import random
 import telepot
@@ -9,10 +11,8 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboar
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto, InputTextMessageContent
 
-from snuMenu import *
-
 """
-skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
+$ python3.5 skeletona_class.py <token>
 
 An example that demonstrates the use of custom keyboard and inline keyboard, and their various buttons.
 
@@ -33,127 +33,122 @@ The bot works like this:
 - Play around with the bot for an afternoon ...
 """
 
-message_with_inline_keyboard = None
+class Bot(telepot.async.Bot):
+    def __init__(self, *args, **kwargs):
+        super(Bot, self).__init__(*args, **kwargs)
+        self._answerer = telepot.async.helper.Answerer(self)
+        self._message_with_inline_keyboard = None
 
-async def on_chat_message(msg):
-    content_type, chat_type, chat_id = telepot.glance(msg)
-    print('Chat:', content_type, chat_type, chat_id)
+    async def on_chat_message(self, msg):
+        content_type, chat_type, chat_id = telepot.glance(msg)
+        print('Chat:', content_type, chat_type, chat_id)
 
-    if content_type != 'text':
-        return
-    command = msg['text']
-    print(command)
-    
+        if content_type == 'new_chat_member':
+            # 누군가 새로 들어왔거나, 봇이 새로 초대된 상황일 때
+            bot.sendMessage(chat_id, words.greet)
+            return
 
-    if command == "/도움":
-        await bot.sendMessage(chat_id, words.help)
-    if command[:3] == "/식단":
-        result = snuMenu(command[3:])
-        await bot.sendMessage(chat_id, result.getMenu())
+        elif content_type != 'text':
+            # 그렇지 않고, text 메시지도 아닌 경우는 그냥 끝낸다.
+            return
 
-    elif command == "/날씨":
-        # 날씨 출력
-        await bot.sendMessage(chat_id, "날씨를 출력합니다.")
-
-    #elif command == "/놀자":
-        # 놀기
+        command = msg['text']
         
+        if command == "/도움":
+            bot.sendMessage(chat_id, words.help)
 
-    elif command == '/c':
-        markup = ReplyKeyboardMarkup(keyboard=[
-                     ['Plain text', KeyboardButton(text='Text only')],
-                     [dict(text='Phone', request_contact=True), KeyboardButton(text='Location', request_location=True)],
-                 ])
-        await bot.sendMessage(chat_id, 'Custom keyboard with various buttons', reply_markup=markup)
-    elif command == '/i':
-        markup = InlineKeyboardMarkup(inline_keyboard=[
-                     [dict(text='Telegram URL', url='https://core.telegram.org/')],
-                     [InlineKeyboardButton(text='Callback - show notification', callback_data='notification')],
-                     [dict(text='Callback - show alert', callback_data='alert')],
-                     [InlineKeyboardButton(text='Callback - edit message', callback_data='edit')],
-                     [dict(text='Switch to using bot inline', switch_inline_query='initial query')],
-                 ])
+        if command[:3] == "/식단":
+            result = snuMenu(command[3:])
+            bot.sendMessage(chat_id, result.getMenu())
 
-        global message_with_inline_keyboard
-        message_with_inline_keyboard = await bot.sendMessage(chat_id, 'Inline keyboard with various buttons', reply_markup=markup)
-    elif command == '/h':
-        markup = ReplyKeyboardHide()
-        await bot.sendMessage(chat_id, 'Hide custom keyboard', reply_markup=markup)
-    elif command == '/f':
-        markup = ForceReply()
-        await bot.sendMessage(chat_id, 'Force reply', reply_markup=markup)
+        if command == 'c':
+            markup = ReplyKeyboardMarkup(keyboard=[
+                         ['Plain text', KeyboardButton(text='Text only')],
+                         [dict(text='Phone', request_contact=True), KeyboardButton(text='Location', request_location=True)],
+                     ])
+            await self.sendMessage(chat_id, 'Custom keyboard with various buttons', reply_markup=markup)
+        elif command == 'i':
+            markup = InlineKeyboardMarkup(inline_keyboard=[
+                         [dict(text='Telegram URL', url='https://core.telegram.org/')],
+                         [InlineKeyboardButton(text='Callback - show notification', callback_data='notification')],
+                         [dict(text='Callback - show alert', callback_data='alert')],
+                         [InlineKeyboardButton(text='Callback - edit message', callback_data='edit')],
+                         [dict(text='Switch to using bot inline', switch_inline_query='initial query')],
+                     ])
 
-async def on_callback_query(msg):
-    query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
-    print('Callback query:', query_id, from_id, data)
+            self._message_with_inline_keyboard = await self.sendMessage(chat_id, 'Inline keyboard with various buttons', reply_markup=markup)
+        elif command == 'h':
+            markup = ReplyKeyboardHide()
+            await self.sendMessage(chat_id, 'Hide custom keyboard', reply_markup=markup)
+        elif command == 'f':
+            markup = ForceReply()
+            await self.sendMessage(chat_id, 'Force reply', reply_markup=markup)
 
-    if data == 'notification':
-        await bot.answerCallbackQuery(query_id, text='Notification at top of screen')
-    elif data == 'alert':
-        await bot.answerCallbackQuery(query_id, text='Alert!', show_alert=True)
-    elif data == 'edit':
-        global message_with_inline_keyboard
+    async def on_callback_query(self, msg):
+        query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
+        print('Callback query:', query_id, from_id, data)
 
-        if message_with_inline_keyboard:
-            msg_idf = telepot.message_identifier(message_with_inline_keyboard)
-            await bot.editMessageText(msg_idf, 'NEW MESSAGE HERE!!!!!')
-        else:
-            await bot.answerCallbackQuery(query_id, text='No previous message to edit')
-
-def on_inline_query(msg):
-    def compute():
-        query_id, from_id, query_string = telepot.glance(msg, flavor='inline_query')
-        print('Computing for: %s' % query_string)
-
-        articles = [InlineQueryResultArticle(
-                        id='abcde', title='Telegram', input_message_content=InputTextMessageContent(message_text='Telegram is a messaging app')),
-                    dict(type='article',
-                        id='fghij', title='Google', input_message_content=dict(message_text='Google is a search engine'))]
-
-        photo1_url = 'https://core.telegram.org/file/811140934/1/tbDSLHSaijc/fdcc7b6d5fb3354adf'
-        photo2_url = 'https://www.telegram.org/img/t_logo.png'
-        photos = [InlineQueryResultPhoto(
-                      id='12345', photo_url=photo1_url, thumb_url=photo1_url),
-                  dict(type='photo',
-                      id='67890', photo_url=photo2_url, thumb_url=photo2_url)]
-
-        result_type = query_string[-1:].lower()
-
-        if result_type == 'a':
-            return articles
-        elif result_type == 'p':
-            return photos
-        else:
-            results = articles if random.randint(0,1) else photos
-            if result_type == 'b':
-                return dict(results=results, switch_pm_text='Back to Bot', switch_pm_parameter='Optional start parameter')
+        if data == 'notification':
+            await self.answerCallbackQuery(query_id, text='Notification at top of screen')
+        elif data == 'alert':
+            await self.answerCallbackQuery(query_id, text='Alert!', show_alert=True)
+        elif data == 'edit':
+            if self._message_with_inline_keyboard:
+                msgid = (from_id, self._message_with_inline_keyboard['message_id'])
+                await self.editMessageText(msgid, 'NEW MESSAGE HERE!!!!!')
             else:
-                return dict(results=results)
+                await self.answerCallbackQuery(query_id, text='No previous message to edit')
 
-    answerer.answer(msg, compute)
+    def on_inline_query(self, msg):
+        def compute():
+            query_id, from_id, query_string = telepot.glance(msg, flavor='inline_query')
+            print('Computing for: %s' % query_string)
 
-def on_chosen_inline_result(msg):
-    result_id, from_id, query_string = telepot.glance(msg, flavor='chosen_inline_result')
-    print('Chosen Inline Result:', result_id, from_id, query_string)
+            articles = [InlineQueryResultArticle(
+                            id='abcde', title='Telegram', input_message_content=InputTextMessageContent(message_text='Telegram is a messaging app')),
+                        dict(type='article',
+                            id='fghij', title='Google', input_message_content=dict(message_text='Google is a search engine'))]
+
+            photo1_url = 'https://core.telegram.org/file/811140934/1/tbDSLHSaijc/fdcc7b6d5fb3354adf'
+            photo2_url = 'https://www.telegram.org/img/t_logo.png'
+            photos = [InlineQueryResultPhoto(
+                          id='12345', photo_url=photo1_url, thumb_url=photo1_url),
+                      dict(type='photo',
+                          id='67890', photo_url=photo2_url, thumb_url=photo2_url)]
+
+            result_type = query_string[-1:].lower()
+
+            if result_type == 'a':
+                return articles
+            elif result_type == 'p':
+                return photos
+            else:
+                results = articles if random.randint(0,1) else photos
+                if result_type == 'b':
+                    return dict(results=results, switch_pm_text='Back to Bot', switch_pm_parameter='Optional start parameter')
+                else:
+                    return dict(results=results)
+
+        self._answerer.answer(msg, compute)
+
+    def on_chosen_inline_result(self, msg):
+        result_id, from_id, query_string = telepot.glance(msg, flavor='chosen_inline_result')
+        print('Chosen Inline Result:', result_id, from_id, query_string)
 
 
-TOKEN = setting.token  # get token from command-line
+TOKEN = setting.token
 
-bot = telepot.async.Bot(TOKEN)
-answerer = telepot.async.helper.Answerer(bot)
-
+bot = Bot(TOKEN)
 loop = asyncio.get_event_loop()
-loop.create_task(bot.message_loop({'chat': on_chat_message,
-                                   'callback_query': on_callback_query,
-                                   'inline_query': on_inline_query,
-                                   'chosen_inline_result': on_chosen_inline_result}))
 
-# Handle ^C gracefully
+loop.create_task(bot.message_loop())
+print('Listening ...')
+
+loop.run_forever()
+
+# 끝낼 때 에러메시지 띄우지 않기
 def signal_handler(signal, frame):
-    print('Bye!')
+    print('종료되었습니다.')
     exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
-
-print('SNUBot is on its way!')
-loop.run_forever()
