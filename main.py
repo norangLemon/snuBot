@@ -40,23 +40,31 @@ async def on_chat_message(msg):
 
     if content_type != 'text':
         return
-    command = msg['text']
-    print(command)
     
-
-    if command == "/도움":
-        await bot.sendMessage(chat_id, words.help)
-    if command[:3] == "/식단":
-        result = snuMenu(command[3:])
-        await bot.sendMessage(chat_id, result.getMenu())
-
-    elif command == "/날씨":
-        # 날씨 출력
-        await bot.sendMessage(chat_id, "날씨를 출력합니다.")
-
-    #elif command == "/놀자":
-        # 놀기
+    command = msg['text']
+    if command[0] == '/' and len(command) >= 3:
+        # '/'로 시작하는 경우 명령어로 간주한다
+        # 길이가 3보다 짧으면 명령어가 아니다
+        print(command)
         
+        if command[:3] in ["/도움", "/help", "/도움말"]:
+            await bot.sendMessage(chat_id, words.help)
+        
+        elif command[:3] in ["/식단", "/메뉴"]:
+            menu = snuMenu(command[3:])
+            await bot.sendMessage(chat_id, menu.getMenu())
+        
+        elif command[:3] in ["/사전", "/영어", "/국어"]:
+            # search = daumDic(command[1:])
+            await bot.sendMessage(chat_id, "사전 검색")
+
+        elif command[:3] == "/날씨":
+            # 날씨 출력
+            await bot.sendMessage(chat_id, "날씨를 출력합니다.")
+
+        #elif command == "/놀자":
+            # 놀기
+            
 
     elif command == '/c':
         markup = ReplyKeyboardMarkup(keyboard=[
