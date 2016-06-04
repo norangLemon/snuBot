@@ -40,7 +40,6 @@ async def on_chat_message(msg):
 
     if content_type != 'text':
         return
-    await bot.sendMessage(chat_id, msg['text'])
     command = msg['text']
     print(command)
     
