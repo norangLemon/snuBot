@@ -8,6 +8,8 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboar
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto, InputTextMessageContent
 
+from snuMenu import *
+
 """
 skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
 
@@ -45,6 +47,10 @@ async def on_chat_message(msg):
 
     if command == "/도움":
         await bot.sendMessage(chat_id, words.help)
+    if command[:3] == "/식단":
+        result = snuMenu(command[3:])
+        await bot.sendMessage(chat_id, result.getMenu())
+
     elif command == "/날씨":
         # 날씨 출력
         await bot.sendMessage(chat_id, "날씨를 출력합니다.")
