@@ -10,6 +10,7 @@ from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto,
 
 from snuMenu import *
 from daumDic import *
+from naverWeather import *
 import arith
 """
 skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
@@ -58,7 +59,7 @@ async def on_chat_message(msg):
             await bot.sendMessage(chat_id, words.help)
         
         elif command in ["/식단", "/메뉴"]:
-            menu = snuMenu(input_msg[3:])
+            menu = snuMenu(input_msg[4:])
             await bot.sendMessage(chat_id, menu.getMenu())
         
         elif command[1:] in daumDic.map_dic.keys():
@@ -66,12 +67,12 @@ async def on_chat_message(msg):
             await bot.sendMessage(chat_id, search.getResult())
 
         elif command == "/계산":
-            result = arith.calculate(input_msg[3:])
+            result = arith.calculate(input_msg[4:])
             await bot.sendMessage(chat_id, result)
 
         elif command == "/날씨":
-            # 날씨 출력
-            await bot.sendMessage(chat_id, "날씨를 출력합니다.")
+            weather = naverWeather(input_msg[4:])
+            await bot.sendMessage(chat_id, weather.getWeather())
 
         #elif command == "/놀자":
             # 놀기
