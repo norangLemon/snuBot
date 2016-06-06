@@ -166,7 +166,7 @@ loop.create_task(bot.message_loop({'chat': on_chat_message,
                                    'inline_query': on_inline_query,
                                    'chosen_inline_result': on_chosen_inline_result}))
 
-# Handle ^C gracefully
+# ^C로 끌 때 에러메시지 나오지 않게 하기
 def signal_handler(signal, frame):
     print('Bye!')
     exit(0)
