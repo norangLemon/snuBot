@@ -10,6 +10,7 @@ from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto,
 
 from snuMenu import *
 from daumDic import *
+import arith
 """
 skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
 
@@ -46,7 +47,8 @@ async def on_chat_message(msg):
     elif content_type != 'text':
         return
     input_msg = msg['text']
-    command = input_msg.split()[0]
+    commands = input_msg.split()
+    command = commands[0]
     if command[0] == '/' and len(command) >= 3:
         # '/'로 시작하는 경우 명령어로 간주한다
         # 길이가 3보다 짧으면 명령어가 아니다
@@ -55,7 +57,7 @@ async def on_chat_message(msg):
         if command in ["/도움", "/help", "/도움말"]:
             await bot.sendMessage(chat_id, words.help)
         
-        elif command in ["/식단", "/메뉴", "/menu"]:
+        elif command in ["/식단", "/메뉴"]:
             menu = snuMenu(input_msg[3:])
             await bot.sendMessage(chat_id, menu.getMenu())
         
@@ -63,8 +65,9 @@ async def on_chat_message(msg):
             search = daumDic(input_msg[1:])
             await bot.sendMessage(chat_id, search.getResult())
 
-        elif command in ["/계산", "/calc"]:
-            await bot.sendMessage(chat_id, "계산합니다.")
+        elif command == "/계산":
+            result = arith.calculate(input_msg[3:])
+            await bot.sendMessage(chat_id, result)
 
         elif command == "/날씨":
             # 날씨 출력
