@@ -83,6 +83,8 @@ class daumDic():
 
 
     def getResult(self):
+        if not self.word:
+            return "검색할 단어를 입력해달라냥!\n '/사전 고양이'처럼 검색하면 된다냥!"
         if not self.search_list or not self.search_word:
             return "우웅? 그런 단어는 사전에 없다냥!"
         result = '[' + self.search_dic + '] ' + self.search_word.text + ": "
