@@ -62,10 +62,15 @@ class naverWeather():
             }
 
     def __init__(self, area="서울"):
+        if not area:
+            # ""이 들어온 경우, 서울을 검색하는 것으로 함
+            area = "서울"
+        
         self.area = area
         self.addr = None
         self.result = None
         
+
         cityNum = naverWeather.map_cityNum.get(area)
         if not cityNum:
             # 잘못된 도시명을 입력한 경우 검색을 하지 않는다.
