@@ -84,7 +84,7 @@ class daumDic():
 
     def getResult(self):
         if not self.search_list or not self.search_word:
-            return "검색 결과가 존재하지 않습니다"
+            return "우웅? 그런 단어는 사전에 없다냥!"
         result = '[' + self.search_dic + '] ' + self.search_word.text + ": "
 
         for mean in self.search_list:
