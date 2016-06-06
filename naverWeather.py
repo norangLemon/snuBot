@@ -96,5 +96,5 @@ class naverWeather():
     def getWeather(self):
         if not self.result:
             # 도시명을 잘못 입력한 경우 결과가 나오지 않는다.
-            return "잘못된 도시명입니다"
+            return "잘못된 도시명이다냥! '/날씨 서울'처럼 검색해줘야 한다냥~"
         return self.result
