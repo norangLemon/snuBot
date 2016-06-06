@@ -9,7 +9,7 @@ from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto, InputTextMessageContent
 
 from snuMenu import *
-
+from daumDic import *
 """
 skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
 
@@ -59,9 +59,9 @@ async def on_chat_message(msg):
             menu = snuMenu(command[3:])
             await bot.sendMessage(chat_id, menu.getMenu())
         
-        elif command[:3] in ["/사전", "/영어", "/국어"]:
-            # search = daumDic(command[1:])
-            await bot.sendMessage(chat_id, "사전 검색")
+        elif command[1:3] in daumDic.map_dic.keys():
+            search = daumDic(command[1:])
+            await bot.sendMessage(chat_id, search.getResult())
 
         elif command[:3] == "/날씨":
             # 날씨 출력
