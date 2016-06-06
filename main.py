@@ -37,8 +37,13 @@ message_with_inline_keyboard = None
 async def on_chat_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     print('Chat:', content_type, chat_type, chat_id)
-
-    if content_type != 'text':
+    
+    if content_type == 'new_chat_member':
+            # 새로운 멤버가 들어왔거나, 봇이 새로운 곳에 초대된 경우
+            await bot.sendMessage(chat_id, words.greet)
+            return
+        
+    elif content_type != 'text':
         return
     
     command = msg['text']
