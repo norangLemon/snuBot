@@ -7,9 +7,7 @@ telegram bot in python
 #### Language
 
 * python 3.5.1
-    * used async. IO
-        * [python docs.](https://www.python.org/dev/peps/pep-0492/)
-        * [Stack Abuse: python async-wait tutorial](http://stackabuse.com/python-async-await-tutorial/)
+    * [async. IO python docs.](https://www.python.org/dev/peps/pep-0492/)
 
 #### Library
 
@@ -70,5 +68,9 @@ telegram bot in python
 [중국어] 沙沙: 사박사박, 쏴쏴, 삭삭, 모래
 ```
 
+#### 심심이
+
+* 인사를 하면 받아준다
+* 말하는 문장 중에 참치가 포함되어있으면, 참치를 달라고 한다.
 
 ### 심심이
