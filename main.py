@@ -74,16 +74,19 @@ async def on_chat_message(msg):
             weather = naverWeather(input_msg[4:])
             await bot.sendMessage(chat_id, weather.getWeather())
 
-        #elif command == "/놀자":
-            # 놀기
-            
-
+    # 심심이 기능
+    elif input_msg in ["샤샤야 안녕!", "샤샤 안녕!", "샤샤 안녕?", "샤샤야 안녕?", "안녕!", "안녕?", "안녕"]:
+        # 인사 받아주기
+        await bot.sendMessage(chat_id, words.hi())
+    
+    elif input_msg:
     elif command == '/c':
         markup = ReplyKeyboardMarkup(keyboard=[
                      ['Plain text', KeyboardButton(text='Text only')],
                      [dict(text='Phone', request_contact=True), KeyboardButton(text='Location', request_location=True)],
                  ])
         await bot.sendMessage(chat_id, 'Custom keyboard with various buttons', reply_markup=markup)
+
     elif command == '/i':
         markup = InlineKeyboardMarkup(inline_keyboard=[
                      [dict(text='Telegram URL', url='https://core.telegram.org/')],
