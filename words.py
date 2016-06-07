@@ -30,5 +30,22 @@ def hi():
     l = ["안냥!>ㅅ<","안녕하세요XD", "안녕하세요냥!+ㅅ+", "와아앙! 인사해주셔따!*ㅅ* 샤샤는 안녕해요냥!", "안녕하다요냥~ >ㅅ<"]
     return random.choice(l)
 
+def heardTuna():
+    l = ["참치!! 참치 소리를 들었다냥!", "우웅?? 참치?!", "냐앙? 샤샤가 좋아하는 참치!"]
+    return random.choice(l)
 
+l_giveTuna = ["참치 줄게!", "참치 먹으렴ㅎㅎ", "여기 참치 먹자~"]
+def giveTuna():
+    return random.choice(l_giveTuna)
 
+l_notGiveTuna = ["참치 안 줄건데?", "너 줄 거 아닌데?", "참치가 어디있다고 그래?"]
+def notGiveTuna():
+    return random.choice(l_notGiveTuna)
+
+def thx():
+    l = ["와아아!! 고맙다냥>ㅅ<", "와옹! 참치! 챱챱0ㅅ0", "참치다!XD"]
+    return random.choice(l)
+
+def sad():
+    l = ["시무룩...", "후애앵8ㅅ8", "(˃̣̣̣̣̣̣ㅅ˂̣̣̣̣̣̣ ू)"]
+    return random.choice(l)
