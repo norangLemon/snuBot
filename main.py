@@ -37,7 +37,7 @@ async def on_chat_message(msg):
         # 길이가 3보다 짧으면 명령어가 아니다
         print(command)
         
-        if command in ["/도움", "/help", "/도움말"]:
+        if command in ["/도움", "/help", "/도움말", "/start"]:
             await bot.sendMessage(chat_id, words.help)
         
         elif command in ["/식단", "/메뉴"]:
