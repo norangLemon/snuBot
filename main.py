@@ -11,19 +11,24 @@ from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto,
 from snuMenu import *
 from daumDic import *
 from naverWeather import *
+from log import *
 import arith
 """
 skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
 """
+
 message_with_inline_keyboard = None
 inline_chat_id = None
 
 async def on_chat_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
-    print('Chat:', content_type, chat_type, chat_id)
+    cmd_prtLog('Chat:%s %s %s' %(content_type, chat_type, chat_id))
+    global inline_chat_id
+    global message_with_inline_keyboard
     
     if content_type == 'new_chat_member':
             # 새로운 멤버가 들어왔거나, 봇이 새로운 곳에 초대된 경우
+            cmd_prtLog("new_chat_memeber: %s"  %chat_id)
             await bot.sendMessage(chat_id, words.greet)
             return
         
@@ -35,7 +40,7 @@ async def on_chat_message(msg):
     if command[0] == '/' and len(command) >= 3:
         # '/'로 시작하는 경우 명령어로 간주한다
         # 길이가 3보다 짧으면 명령어가 아니다
-        print(command)
+        cmd_prtLog("new_chat_memeber: %s"  %chat_id)
         
         if command in ["/도움", "/help", "/도움말", "/start"]:
             await bot.sendMessage(chat_id, words.help)
@@ -70,8 +75,18 @@ async def on_chat_message(msg):
                      [InlineKeyboardButton(text=words.notGiveTuna(), callback_data='not give tuna')],
                  ])
 
-        global inline_chat_id
-        global message_with_inline_keyboard
+        inline_chat_id = chat_id
+
+        message_with_inline_keyboard = await bot.sendMessage(chat_id, words.heardTuna(), reply_markup=markup)
+    
+    elif input_msg == "test":
+        # 선택지 추가 테스트
+        print("test")
+        markup = InlineKeyboardMarkup(inline_keyboard=[
+                     [InlineKeyboardButton(text="A", callback_data='A')],
+                     [InlineKeyboardButton(text="B", callback_data='B')],
+                 ])
+
         inline_chat_id = chat_id
 
         message_with_inline_keyboard = await bot.sendMessage(chat_id, words.heardTuna(), reply_markup=markup)
@@ -93,6 +108,11 @@ async def on_callback_query(msg):
     elif data == 'not give tuna':   # 참치를 안 주면 슬퍼하기
         await bot.answerCallbackQuery(query_id, text='참치를 주지 않았다!')
         await bot.sendMessage(inline_chat_id, words.sad())
+
+    elif data == 'A':
+        await bot.sendMessage(inline_chat_id, "A")
+    elif data == 'B':
+        await bot.sendMessage(inline_chat_id, "B")
 
 def on_chosen_inline_result(msg):
     result_id, from_id, query_string = telepot.glance(msg, flavor='chosen_inline_result')
