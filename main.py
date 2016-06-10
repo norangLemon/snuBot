@@ -7,6 +7,7 @@ import telepot.async
 from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardHide, ForceReply
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto, InputTextMessageContent
+from telepot.namedtuple import Message
 
 from snuMenu import *
 from daumDic import *
@@ -22,9 +23,13 @@ inline_chat_id = None
 async def on_chat_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     
+    # 유저 이름 알아내기
+    ntuple = Message(**msg)
+    userName = ntuple.from_.first_name + ' ' + ntuple.from_.last_name
+    
     if content_type == 'new_chat_member':
             # 새로운 멤버가 들어왔거나, 봇이 새로운 곳에 초대된 경우
-            cmd_prtLog('new_chat_member: %s %s %s' %(content_type, chat_type, chat_id))
+            cmd_prtLog('new_chat_member: %s %s %s %s' %(content_type, chat_type, chat_id, userName))
             await bot.sendMessage(chat_id, words.greet)
             return
         
@@ -36,7 +41,7 @@ async def on_chat_message(msg):
     if command[0] == '/' and len(command) >= 3:
         # '/'로 시작하는 경우 명령어로 간주한다
         # 길이가 3보다 짧으면 명령어가 아니다
-        cmd_prtLog('%s: %s %s %s' %(input_msg, content_type, chat_type, chat_id))
+        cmd_prtLog('new_chat_member: %s %s %s %s' %(content_type, chat_type, chat_id, userName))
         
         if command in ["/도움", "/help", "/도움말", "/start"]:
             await bot.sendMessage(chat_id, words.help)
@@ -60,13 +65,13 @@ async def on_chat_message(msg):
     # 심심이 기능
     elif input_msg in ["샤샤야 안녕!", "샤샤 안녕!", "샤샤 안녕?", "샤샤야 안녕?", "안녕!", "안녕?", "안녕"]:
         # 인사 받아주기
-        chat_prtLog('greet: %s %s %s %s' %(content_type, chat_type, chat_id, input_msg))
+        chat_prtLog('greet: %s %s %s %s %s' %(content_type, chat_type, chat_id, input_msg, userName))
         await bot.sendMessage(chat_id, words.hi())
 
  
     elif input_msg.find("참치") != -1:
         # 참치 달라고 하기
-        chat_prtLog('tuna: %s %s %s %s' %(content_type, chat_type, chat_id, input_msg))
+        chat_prtLog('greet: %s %s %s %s %s' %(content_type, chat_type, chat_id, input_msg, userName))
         markup = InlineKeyboardMarkup(inline_keyboard=[
                      [InlineKeyboardButton(text=words.giveTuna(), callback_data='give tuna')],
                      [InlineKeyboardButton(text=words.notGiveTuna(), callback_data='not give tuna')],
