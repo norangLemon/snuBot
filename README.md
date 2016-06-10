@@ -14,6 +14,8 @@ telegram bot in python
 * [telepot 8.1](https://github.com/nickoala/telepot): Python framework for Telegram Bot API
 * [requests 2.10.0](http://docs.python-requests.org/en/master/): HTTP library for Python
 * [beautiful soup 4.4.1](https://www.crummy.com/software/BeautifulSoup/bs4/doc/): Python library for pulling data out of HTML and XML files
+* [flask 0.11.1](http://flask.pocoo.org/docs/0.11/): webdevelopment framework for Python
+* [sqlAlchemy 1. 0. 13](http://www.sqlalchemy.org/): The Python SQL Toolkit and Object Relational Mapper
 
 #### Clone
 
