@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 # http://dic.daum.net/
 
 class daumDic():
-    session = requests.Session()
     addr = "http://dic.daum.net/search.do?q="
     addr_re = "http://dic.daum.net/word/view.do?wordid="    # 리다이렉트 되는 경우가 있음
     map_dic = {     # 사전 조건 매핑
@@ -44,8 +43,8 @@ class daumDic():
             return ""
         addr = daumDic.addr + self.word + self.dic
         
-        daumDic.session.encoding = "utf-8"
-        req = daumDic.session.get(addr)
+        req = requests.get(addr)
+        req.encoding = "utf-8"
 
         soup_raw = BeautifulSoup(req.text, "html.parser")
         
@@ -55,7 +54,7 @@ class daumDic():
         word_key = re.compile("kew\d{9}").search(soup_raw.text)                 # 매칭되는 케이스가 있는지 검색한다
         if word_key:
             addr = daumDic.addr_re + word_key.group() + "&q=" + self.word       # 검색 결과로 redirect되는 주소를 알아낸다
-            req = daumDic.session.get(addr)
+            req = requests.get(addr)
             soup_raw = BeautifulSoup(req.text, "html.parser")
         
         self.search_word = soup_raw.find(class_= re.compile("txt_clean"))

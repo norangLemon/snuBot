@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import re
 
 class naverWeather():
-    session = requests.Session() 
     addr = "http://weather.naver.com/rgn/cityWetrCity.nhn?cityRgnCd=CT"
     map_cityNum = {     # 지역 번호 매핑
             '가평':"001001", '강화':"001002", '고양':"001003", '과천':'001004','광명':"001005" , 
@@ -80,9 +79,8 @@ class naverWeather():
         self.search()
 
     def search(self):
-        naverWeather.session.encoding = 'utf-8'
-
-        req = naverWeather.session.get(self.addr)
+        req = requests.get(self.addr)
+        req.encoding = 'utf-8'
         soup = BeautifulSoup(req.text, "html.parser")
         table = soup.find(class_="tbl_weather tbl_today3")
        

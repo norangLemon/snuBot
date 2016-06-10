@@ -35,10 +35,9 @@ class snuMenu():
     soup2 = None
 
     # 식당 소속에 따른 크롤링 매핑
-    session = requests.Session()
     map_req = {
-        1: session.get(addr1),
-        2: session.get(addr2),
+        1: requests.get(addr1),
+        2: requests.get(addr2),
         3: None
     }
 
