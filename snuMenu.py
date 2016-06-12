@@ -34,7 +34,7 @@ class snuMenu():
     soup1 = None
     soup2 = None
 
-
+    map_addr = { 1: addr1, 2: addr2 } # 식당 소속에 따른 주소 매핑
     map_soup = { 1: soup1, 2: soup2 } # 식당 소속에 따른 코드 추출 결과 매핑
     map_index = {  # 직영식당의 식당명에 따른 번호 매핑
             "학생회관식당":1, "제3식당":2, "기숙사식당":3, "자하연식당":4, 
@@ -50,12 +50,6 @@ class snuMenu():
             }
 
     def __init__(self, string):
-        # 식당 소속에 따른 크롤링 매핑
-        map_req = {
-            1: requests.get(addr1),
-            2: requests.get(addr2),
-            3: None
-        }
         
         # instance에 고유한 변수들을 생성한다
         self.name = None        # [식당명]
@@ -93,7 +87,7 @@ class snuMenu():
         # 식단 정보 업데이트
         if num == 3:
             return
-        req = self.map_req[num]
+        req = requests.get(snuMenu.map_addr[num])
         req.encoding = "euc-kr"
         s_raw = BeautifulSoup(req.text, "html.parser")
         s_raw = s_raw.find_all('tbody')
