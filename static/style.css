@@ -1,11 +1,30 @@
-@import url(https://fonts.googleapis.com/css?family=Indie+Flower);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
 
 body {
   margin: 0;
   background-image: url('cat.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  font-family: "Indie Flower", courier;
+  background-size: cover; /* 위아래가 꽉 차도록 한다 */
+  background-position: 60% 50%; /* 고양이 얼굴이 잘 보이게 한다 */
+  min-height: 100vh; /* 높이를 기준으로 한다 */
+  font-family: "nanumgothiccoding", monospace;
 }
 
+#title {
+    /* rank table에 맞추어 위쪽과 왼쪽에 적당한 padding 주기 */
+    margin: 0;
+    padding-top: 10vh;
+    padding-bottom: 5vh;
+    padding-left: 20vw;
+}
+
+#index{
+  font-weight: bold;
+  font-size: 20px;
+}
+
+td{
+  /* 빽빽한 것이 보기 좋지 않으니
+     왼쪽에 적당한 padding을 준다. */
+    padding: 1vh 8vw;
+}
