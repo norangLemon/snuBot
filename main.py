@@ -26,6 +26,7 @@ async def on_chat_message(msg):
     # 유저 이름 알아내기
     ntuple = Message(**msg)
     userName = ntuple.from_.first_name + ' ' + ntuple.from_.last_name
+    user_id = msg.from_.id
     
     if content_type == 'new_chat_member':
             # 새로운 멤버가 들어왔거나, 봇이 새로운 곳에 초대된 경우
@@ -44,34 +45,34 @@ async def on_chat_message(msg):
         cmd_prtLog('new_chat_member: %s %s %s %s' %(content_type, chat_type, chat_id, userName))
         
         if command in ["/도움", "/help", "/도움말", "/start"]:
-            db.cmdPlus(chat_id, userName)
+            db.cmdPlus(user_id, userName)
             await bot.sendMessage(chat_id, words.help)
         
         elif command in ["/식단", "/메뉴"]:
             menu = snuMenu(input_msg[4:])
-            db.cmdPlus(chat_id, userName)
+            db.cmdPlus(user_id, userName)
             await bot.sendMessage(chat_id, menu.getMenu())
         
         elif command[1:] in daumDic.map_dic.keys():
             search = daumDic(input_msg[1:])
-            db.cmdPlus(chat_id, userName)
+            db.cmdPlus(user_id, userName)
             await bot.sendMessage(chat_id, search.getResult())
 
         elif command == "/계산":
             result = arith.calculate(input_msg[4:])
-            db.cmdPlus(chat_id, userName)
+            db.cmdPlus(user_id, userName)
             await bot.sendMessage(chat_id, result)
 
         elif command == "/날씨":
             weather = naverWeather(input_msg[4:])
-            db.cmdPlus(chat_id, userName)
+            db.cmdPlus(user_id, userName)
             await bot.sendMessage(chat_id, weather.getWeather())
 
     # 심심이 기능
     elif input_msg in ["샤샤야 안녕!", "샤샤 안녕!", "샤샤 안녕?", "샤샤야 안녕?", "안녕!", "안녕?", "안녕"]:
         # 인사 받아주기
         chat_prtLog('greet: %s %s %s %s %s' %(content_type, chat_type, chat_id, input_msg, userName))
-        db.chatPlus(chat_id, userName, 2)
+        db.chatPlus(user_id, userName, 2)
         await bot.sendMessage(chat_id, words.hi())
 
  
@@ -97,17 +98,19 @@ async def on_callback_query(msg):
     query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
     cmd_prtLog('Callback query: %s %s %s' %(query_id, from_id, data))
     
+    print(msg)
     # 유저 이름 알아내기
     # dictionary의 형태가 달라서 Message()를 사용할 수 없다.
     userName = msg['from']['first_name'] + ' ' + msg['from']['last_name']
+    user_id = msg['from']['id']
     chat_id = msg['message']['chat']['id']
 
     if data == 'give tuna':         # 참치를 주면 기뻐하기
-        db.chatPlus(from_id, userName, 5)   # 5의 애정도가 증가
+        db.chatPlus(user_id, userName, 5)   # 5의 애정도가 증가
         await bot.answerCallbackQuery(query_id, text='참치를 주었다!')
         await bot.sendMessage(chat_id, words.thx())
     elif data == 'not give tuna':   # 참치를 안 주면 슬퍼하기
-        db.chatPlus(from_id, userName, -1)  # 애정도 1 감소
+        db.chatPlus(user_id, userName, -1)  # 애정도 1 감소
         await bot.answerCallbackQuery(query_id, text='참치를 주지 않았다!')
         await bot.sendMessage(chat_id, words.sad())
 
