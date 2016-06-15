@@ -8,11 +8,13 @@
     <h1 id="title">Ranking Page</h1>
     <table id="rank">
         <tr id="index">
-            <td>name</td>
             <td>score</td>
+            <td>class</td>
+            <td>name</td>
         </tr>
         {% for item in resultList %}
         <tr>
+            <td class="num">{{loop.depth}}</td>
             <td class="name">{{item["name"]}}</td>
             <td class="score">{{item["score"]}}</td>
         </tr>
