@@ -14,6 +14,7 @@ from daumDic import *
 from naverWeather import *
 from log import *
 import arith
+import db
 """
 skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
 """
@@ -48,6 +49,7 @@ async def on_chat_message(msg):
         
         elif command in ["/식단", "/메뉴"]:
             menu = snuMenu(input_msg[4:])
+            db.cmdPlus(chat_id, userName)
             await bot.sendMessage(chat_id, menu.getMenu())
         
         elif command[1:] in daumDic.map_dic.keys():
