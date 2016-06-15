@@ -19,7 +19,6 @@ import db
 skeleton from https://github.com/nickoala/telepot/blob/master/examples/skeletona_route.py
 """
 message_with_inline_keyboard = None
-inline_chat_id = None
 
 async def on_chat_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
@@ -45,6 +44,7 @@ async def on_chat_message(msg):
         cmd_prtLog('new_chat_member: %s %s %s %s' %(content_type, chat_type, chat_id, userName))
         
         if command in ["/도움", "/help", "/도움말", "/start"]:
+            db.cmdPlus(chat_id, userName)
             await bot.sendMessage(chat_id, words.help)
         
         elif command in ["/식단", "/메뉴"]:
@@ -54,20 +54,24 @@ async def on_chat_message(msg):
         
         elif command[1:] in daumDic.map_dic.keys():
             search = daumDic(input_msg[1:])
+            db.cmdPlus(chat_id, userName)
             await bot.sendMessage(chat_id, search.getResult())
 
         elif command == "/계산":
             result = arith.calculate(input_msg[4:])
+            db.cmdPlus(chat_id, userName)
             await bot.sendMessage(chat_id, result)
 
         elif command == "/날씨":
             weather = naverWeather(input_msg[4:])
+            db.cmdPlus(chat_id, userName)
             await bot.sendMessage(chat_id, weather.getWeather())
 
     # 심심이 기능
     elif input_msg in ["샤샤야 안녕!", "샤샤 안녕!", "샤샤 안녕?", "샤샤야 안녕?", "안녕!", "안녕?", "안녕"]:
         # 인사 받아주기
         chat_prtLog('greet: %s %s %s %s %s' %(content_type, chat_type, chat_id, input_msg, userName))
+        db.chatPlus(chat_id, userName, 2)
         await bot.sendMessage(chat_id, words.hi())
 
  
@@ -79,9 +83,7 @@ async def on_chat_message(msg):
                      [InlineKeyboardButton(text=words.notGiveTuna(), callback_data='not give tuna')],
                  ])
 
-        global inline_chat_id
         global message_with_inline_keyboard
-        inline_chat_id = chat_id
 
         message_with_inline_keyboard = await bot.sendMessage(chat_id, words.heardTuna(), reply_markup=markup)
 
@@ -95,13 +97,17 @@ async def on_callback_query(msg):
     query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
     cmd_prtLog('Callback query: %s %s %s' %(query_id, from_id, data))
     
-    global inline_chat_id
+    # 유저 이름 알아내기
+    # dictionary의 형태가 달라서 Message()를 사용할 수 없다.
+    userName = msg['from']['first_name'] + ' ' + msg['from']['last_name']
+    chat_id = msg['message']['chat']['id']
+
     if data == 'give tuna':         # 참치를 주면 기뻐하기
         await bot.answerCallbackQuery(query_id, text='참치를 주었다!')
-        await bot.sendMessage(inline_chat_id, words.thx())
+        await bot.sendMessage(chat_id, words.thx())
     elif data == 'not give tuna':   # 참치를 안 주면 슬퍼하기
         await bot.answerCallbackQuery(query_id, text='참치를 주지 않았다!')
-        await bot.sendMessage(inline_chat_id, words.sad())
+        await bot.sendMessage(chat_id, words.sad())
 
 def on_chosen_inline_result(msg):
     result_id, from_id, query_string = telepot.glance(msg, flavor='chosen_inline_result')
