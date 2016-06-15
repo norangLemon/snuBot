@@ -11,11 +11,11 @@ body {
 }
 
 #title {
-    /* rank table에 맞추어 위쪽과 왼쪽에 적당한 padding 주기 */
-    margin: 0;
-    padding-top: 10vh;
-    padding-bottom: 5vh;
-    padding-left: 20vw;
+  /* rank table에 맞추어 위쪽과 왼쪽에 적당한 padding 주기 */
+  margin: 0;
+  padding-top: 10vh;
+  padding-bottom: 5vh;
+  padding-left: 20vw;
 }
 
 #index{
@@ -23,13 +23,17 @@ body {
   font-size: 20px;
 }
 
-.name .score {
+td{
+  vertical-align: bottom;
+}
+.name, .score {
   /* 빽빽한 것이 보기 좋지 않으니
-     왼쪽에 적당한 padding을 준다. */
-    padding: 1vh 8vw;
+   왼쪽에 적당한 padding을 준다. */
+  padding-top: 1vh; 
+  padding-right: 8vw;
 }
 
 .num {
     padding-left: 8vw;
-    padding-right: 1vw;
+    padding-right: 2vw;
 }
