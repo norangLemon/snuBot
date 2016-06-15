@@ -14,8 +14,10 @@ telegram bot in python
 * [telepot 8.1](https://github.com/nickoala/telepot): Python framework for Telegram Bot API
 * [requests 2.10.0](http://docs.python-requests.org/en/master/): HTTP library for Python
 * [beautiful soup 4.4.1](https://www.crummy.com/software/BeautifulSoup/bs4/doc/): Python library for pulling data out of HTML and XML files
+* [redis 2.4.10](http://redis.io/)
+* [python redis 2.10.5](https://redislabs.com/python-redis)
 * [flask 0.11.1](http://flask.pocoo.org/docs/0.11/): webdevelopment framework for Python
-* [sqlAlchemy 1. 0. 13](http://www.sqlalchemy.org/): The Python SQL Toolkit and Object Relational Mapper
+* [Jinja2 2.8](http://jinja.pocoo.org/): a full featured template engine for Python
 
 #### Clone
 
@@ -74,4 +76,12 @@ telegram bot in python
 
 * 인사를 하면 받아준다
 * 말하는 문장 중에 참치가 포함되어있으면, 참치를 달라고 한다.
+
+### Web Page
+
+[Web Page](http://telegram.norang.xyz/)에서 랭킹을 확인 가능하다.
+
+* 명령어 실행 횟수에 따라서 점수 증가
+* 심심이 기능을 사용함에 따라서 점수가 증감
+* telegram상 이름을 바꾸면 바로 반영됨
 
