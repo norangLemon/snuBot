@@ -103,9 +103,11 @@ async def on_callback_query(msg):
     chat_id = msg['message']['chat']['id']
 
     if data == 'give tuna':         # 참치를 주면 기뻐하기
+        db.chatPlus(from_id, userName, 5)   # 5의 애정도가 증가
         await bot.answerCallbackQuery(query_id, text='참치를 주었다!')
         await bot.sendMessage(chat_id, words.thx())
     elif data == 'not give tuna':   # 참치를 안 주면 슬퍼하기
+        db.chatPlus(from_id, userName, -1)  # 애정도 1 감소
         await bot.answerCallbackQuery(query_id, text='참치를 주지 않았다!')
         await bot.sendMessage(chat_id, words.sad())
 
