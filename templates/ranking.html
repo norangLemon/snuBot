@@ -14,7 +14,7 @@
         </tr>
         {% for item in resultList %}
         <tr>
-            <td class="num">{{loop.depth}}</td>
+            <td class="num">{{loop.index}}</td>
             <td class="name">{{item["name"]}}</td>
             <td class="score">{{item["score"]}}</td>
         </tr>
