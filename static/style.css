@@ -1,0 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Indie+Flower);
+
+body {
+  margin: 0;
+  background-image: url('cat.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  font-family: "Indie Flower", courier;
+}
+
