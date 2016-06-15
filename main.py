@@ -23,11 +23,17 @@ message_with_inline_keyboard = None
 async def on_chat_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     
-    # 유저 이름 알아내기
-    ntuple = Message(**msg)
-    userName = ntuple.from_.first_name + ' ' + ntuple.from_.last_name
-    user_id = msg.from_.id
-    
+    try:
+        # 유저 이름 알아내기
+        ntuple = Message(**msg)
+        userName = ntuple.from_.first_name + ' ' + ntuple.from_.last_name
+        user_id = ntuple.from_.id
+    except:
+        # 예외처리
+        cmd_prtLog("이름 알아내기 실패: " + str(msg))
+        userName = "FAILED"
+        user_id = '0'
+
     if content_type == 'new_chat_member':
             # 새로운 멤버가 들어왔거나, 봇이 새로운 곳에 초대된 경우
             cmd_prtLog('new_chat_member: %s %s %s %s' %(content_type, chat_type, chat_id, userName))
@@ -98,7 +104,6 @@ async def on_callback_query(msg):
     query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
     cmd_prtLog('Callback query: %s %s %s' %(query_id, from_id, data))
     
-    print(msg)
     # 유저 이름 알아내기
     # dictionary의 형태가 달라서 Message()를 사용할 수 없다.
     userName = msg['from']['first_name'] + ' ' + msg['from']['last_name']
