@@ -23,8 +23,13 @@ body {
   font-size: 20px;
 }
 
-td{
+.name .score {
   /* 빽빽한 것이 보기 좋지 않으니
      왼쪽에 적당한 padding을 준다. */
     padding: 1vh 8vw;
+}
+
+.num {
+    padding-left: 8vw;
+    padding-right: 1vw;
 }
