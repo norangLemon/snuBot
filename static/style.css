@@ -1,13 +1,20 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+/* 나눔 고딕 코딩 글씨체로 띄워주도록 임포트한다.*/
 
 body {
   margin: 0;
   background-image: url('cat.jpg');
   background-repeat: no-repeat;
-  background-size: cover; /* 위아래가 꽉 차도록 한다 */
-  background-position: 60% 50%; /* 고양이 얼굴이 잘 보이게 한다 */
-  min-height: 100vh; /* 높이를 기준으로 한다 */
+  background-size: cover; 
+  background-position: 60% 50%; 
+  /* background option
+   * 고양이 그림을 반복 없이, 
+   * 위아래가 꽉 차도록 한다 
+   * 이때 고양이 얼굴 부분이 잘 보이게 포지셔닝 한다 */
+  min-height: 100vh; 
+  /* 최소 높이를 지정해서 고양이 얼굴이 잘리지 않게 한다 */
   font-family: "Nanum Gothic Coding", monospace;
+  /* 나눔 고딕 코딩체를 쓰지 못하면 모노스페이스를 쓰도록 지정*/
 }
 
 #title {
@@ -19,11 +26,14 @@ body {
 }
 
 #index{
+  /* 테이블 상단의 인덱스는 두꺼운 글씨로 */
   font-weight: bold;
   font-size: 20px;
 }
 
 td{
+  /* 이름에 들어있는 이모티콘 때문에
+   * 글씨가 떠 보이지 않도록 바닥 정렬한다 */
   vertical-align: bottom;
 }
 .name, .score {
@@ -34,6 +44,7 @@ td{
 }
 
 .num {
+    /* 랭크는 큰 폭을 차지하지 않도록 */
     padding-left: 8vw;
     padding-right: 2vw;
 }

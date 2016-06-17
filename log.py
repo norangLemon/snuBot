@@ -4,6 +4,7 @@ import sys
 
 # log file 만들기
 # '/'로 시작하는 command와 샤샤의 심심이 기능을 분리해서 로그를 남긴다
+# 일반 채팅은 로그를 남기지 않는다
 
 # 최상위 loger에게 stdout으로 출력하도록 한다
 root = logging.getLogger()
