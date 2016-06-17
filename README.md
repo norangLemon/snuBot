@@ -9,13 +9,20 @@ telegram bot in python
 * python 3.5.1
     * [async. IO python docs.](https://www.python.org/dev/peps/pep-0492/)
 
+#### Database & Driver
+
+* [redis 2.4.10](http://redis.io/): open source (BSD licensed), in-memory data structure store, used as database, cache and message broker 
+* [python redis 2.10.5](https://redislabs.com/python-redis): enable running Redis datasets in a highly available and auto-scalable manner, with predictable top performance
+
+#### Webserver
+
+* [nginx 1.8.1](http://nginx.org/): HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server
+
 #### Library
 
 * [telepot 8.1](https://github.com/nickoala/telepot): Python framework for Telegram Bot API
 * [requests 2.10.0](http://docs.python-requests.org/en/master/): HTTP library for Python
 * [beautiful soup 4.4.1](https://www.crummy.com/software/BeautifulSoup/bs4/doc/): Python library for pulling data out of HTML and XML files
-* [redis 2.4.10](http://redis.io/)
-* [python redis 2.10.5](https://redislabs.com/python-redis)
 * [flask 0.11.1](http://flask.pocoo.org/docs/0.11/): webdevelopment framework for Python
 * [Jinja2 2.8](http://jinja.pocoo.org/): a full featured template engine for Python
 
@@ -77,11 +84,12 @@ telegram bot in python
 * 인사를 하면 받아준다
 * 말하는 문장 중에 참치가 포함되어있으면, 참치를 달라고 한다.
 
-### Web Page
+#### Web Page
 
 [Web Page](http://telegram.norang.xyz/)에서 랭킹을 확인 가능하다.
 
+* 랭킹, 이름, 점수를 띄우줌
 * 명령어 실행 횟수에 따라서 점수 증가
 * 심심이 기능을 사용함에 따라서 점수가 증감
-* telegram상 이름을 바꾸면 바로 반영됨
+* telegram상 이름을 바꾸면 바로 반영
 
