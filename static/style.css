@@ -7,7 +7,7 @@ body {
   background-size: cover; /* 위아래가 꽉 차도록 한다 */
   background-position: 60% 50%; /* 고양이 얼굴이 잘 보이게 한다 */
   min-height: 100vh; /* 높이를 기준으로 한다 */
-  font-family: "nanumgothiccoding", monospace;
+  font-family: "Nanum Gothic Coding", monospace;
 }
 
 #title {
