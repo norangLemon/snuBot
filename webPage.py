@@ -3,7 +3,7 @@ from db import *
 app = Flask(__name__)
 
 
-@app.route('/') # root page에서 띄우도록 한다.
+@app.route('/rank') # rank page에서 띄우도록 한다.
 def ranking():
     keyList = r.keys("*")
     resultList = []
