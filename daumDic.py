@@ -47,12 +47,14 @@ class daumDic():
         req.encoding = "utf-8"
 
         soup_raw = BeautifulSoup(req.text, "html.parser")
+        print(soup_raw)
         
         # 특정 검색의 경우, js를 사용하여 redirect 되기도 한다.
         # 이때는 단어의 번호(word_key)를 코드에서 찾아낼 수 있다.
         # 이것을 이용하여 특정한 경우에는 주소를 다시 바꾸어 크롤링한다.
-        word_key = re.compile("kew\d{9}").search(soup_raw.text)                 # 매칭되는 케이스가 있는지 검색한다
+        word_key = re.compile("((kew)|(ekw))\d{9}").search(soup_raw.text)                 # 매칭되는 케이스가 있는지 검색한다
         if word_key:
+            print(word_key)
             addr = daumDic.addr_re + word_key.group() + "&q=" + self.word       # 검색 결과로 redirect되는 주소를 알아낸다
             req = requests.get(addr)
             soup_raw = BeautifulSoup(req.text, "html.parser")
