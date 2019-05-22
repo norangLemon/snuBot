@@ -33,7 +33,7 @@ telegram bot in python
 
 ### feature
 
-#### 날씨
+#### [날씨](https://github.com/norangLemon/naverWeather/blob/master/README.md)
 
 * [네이버 날씨](http://weather.naver.com/)의 도시별 날씨를 검색한다.
 * `/날씨 [도시명]`으로 검색하면 오늘, 내일의 오전/오후 날씨를 출력한다. 도시명을 넣지 않으면 서울 날씨를 출력한다.
@@ -49,7 +49,7 @@ telegram bot in python
 오후: 28.0℃(구름조금, 강수확률 10%)
 ```
 
-#### 메뉴
+#### [메뉴](https://github.com/norangLemon/snuMenu)
 
 * [직영식당](https://www.snuco.com/html/restaurant/restaurant_menu1.asp), [위탁식당](https://www.snuco.com/html/restaurant/restaurant_menu2.asp)의 오늘 메뉴를 알려준다.
 * `/[식단, 메뉴] [식당명] [아침, 점심, 저녁]`을 입력하면 해당 식당의 해당 시간 메뉴를 보여준다. 시간을 입력하지 않으면 전체 시간 메뉴를 불러온다.
