@@ -86,9 +86,9 @@ telegram bot in python
 
 #### Web Page
 
-[Web Page](http://telegram.norang.xyz/)에서 랭킹을 확인 가능하다.
+Web Page를 서버에서 실행할 경우, 랭킹을 확인 가능하다.
 
-* 랭킹, 이름, 점수를 띄우줌
+* 랭킹, 이름, 점수를 띄어줌
 * 명령어 실행 횟수에 따라서 점수 증가
 * 심심이 기능을 사용함에 따라서 점수가 증감
 * telegram상 이름을 바꾸면 바로 반영
